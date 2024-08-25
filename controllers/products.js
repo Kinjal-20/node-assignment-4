@@ -18,11 +18,13 @@ exports.postAddProducts = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   console.log("In second the middleware");
-  const products = Product.fetchAll();
-  res.render("shop", {
-    prods: products,
-    docTitle: "shop",
-    path: "/",
+  Product.fetchAll((products) => {
+    res.render("shop", {
+      prods: products,
+      docTitle: "shop",
+      path: "/",
+    });
   });
+
   //res.sendFile(path.join(rootDir, "views", "shop.html"));
 };
