@@ -1,4 +1,4 @@
-const product = [];
+const Product = require("../models/product");
 
 exports.getAddProducts = (req, res, next) => {
   console.log("In first the middleware");
@@ -10,17 +10,19 @@ exports.getAddProducts = (req, res, next) => {
 
 exports.postAddProducts = (req, res, next) => {
   console.log("--form end--");
-  product.push({ title: req.body.title });
+  const product = new Product(req.body.title);
+  product.save();
   console.log(product);
   res.redirect("/");
 };
 
 exports.getProducts = (req, res, next) => {
   console.log("In second the middleware");
-  //res.sendFile(path.join(rootDir, "views", "shop.html"));
+  const products = Product.fetchAll();
   res.render("shop", {
-    prods: product,
+    prods: products,
     docTitle: "shop",
     path: "/",
   });
+  //res.sendFile(path.join(rootDir, "views", "shop.html"));
 };
